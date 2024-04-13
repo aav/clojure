@@ -6,7 +6,13 @@
 		"vscode": {
 			"extensions": [
 				"betterthantomorrow.calva"
-			]
+			],
+			"settings": {
+				"calva.showCalvaSaysOnStart": false,
+				"calva.autoOpenJackInTerminal": false,
+				"calva.autoOpenREPLWindow": false,
+				"editor.formatOnSave": true
+			}
 		}
 	}
 }
