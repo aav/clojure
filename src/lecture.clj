@@ -88,6 +88,290 @@ false
 #{"key1" :key2 45 'abc-symbol #{1 2 3}}
 
 
+; LECTURE #3
+; for(;;) {
+;      //
+; }
+
+; (3 + 4) * (9 - 3)
+; 7(T)    * (9 - 3)
+; 7(T)    * 6(T)
+; 42(T)
+
+
+; LECTURE #4
+
+; identity
+((fn [x]
+   x) 1)
+
+; reduced
+; 1
+
+; if (condition) {
+;   return {a: 1, b: "xxx"}
+; }
+;
+; let x = [0; 10]
+; "hello world"
+; homoiconic
+
+; lambda
+; list, first element -> symbol, [] of args (free vars), body -> T
+; (fn [x] T)
+
+; l-abstraction, b-reduction
+;((fn [x] x) 1)
+
+;(* 2 3 4)
+
+((fn [x] (* x x)) 2)
+; (* 2 2)
+; 4
+
+; (+ 2 3)
+; (* 4 6)
+
+; functions vs operators
+; 2 + 3   4 * 6   add(2, 3)  mult(4, 6)
+;
+; (2 + 3) * 4
+; binary ops  2 + 3
+; unary ops  -1  !flag
+; tertiary    flag ? 1 : 2
+
+(* (+ 2 3) 4)
+(* 5 4)
+20
+2 + 3 + 4
+(+ 2 3 4)
+;(f 2 3 4)
+; (+ 2 4 5)
+
+
+; a, b, c 
+
+'a
+
+;'(+ 2 3)
+
+; binding
+; connect symbol with some value
+
+;const x = 124;
+;f(x, 2, y(x, 3))
+
+; ((fn [x]
+;   f(x, 2, y(x, 3))) 124)
+
+((fn [x]
+   (* (+ x 20) x)) 124)
+
+'x
+'(+ 1 2)
+
+'+
+
++
+
+((fn [+]
+   (+ 2 4)) *)
+
+
+; LECTURE 5
+
+((fn [x]
+   (* x x)) 2)
+
+((fn [square x]
+   (square x))
+
+ (fn [x]
+   (* x x))
+ 2)
+
+(let
+ [square
+  (fn [x]
+    (* x x))
+  x 2]
+  (square x))
+
+
+; add(a1 a2) ~ (+ a1 a2)
+
+(((fn [a1]
+    (fn [a2]
+      (+ a1 a2))) 2) 3)
+
+; Curry transformation
+; partial function application
+
+
+; higher order function
+
+; (partial f a1 a2 a3 aN)
+(let [increment (partial + 1)]
+  (increment 2))
+
+; (log! [severity category message]
+;   ....
+;   )
+;
+; (let [error! (partial log! "error" "my_module")]
+;   (error! "Message 1")
+;   ...
+;   (error! "Message 2")
+;
+;  )
+
+(let [x 1]
+  ; T begin
+  (+ x 1)
+  ; T end
+  )
+
+; T: zzzz x zzzzz x zzzzz x 
+
+
+(let [x 1]
+  ; T x ~ 1
+  (let [y 10]
+    (+ x y) ; -> (+ 1 10)
+    )
+  ; x ~ 1
+  )
+
+; PLOP PLace Oriented Programming
+
+; (def MY-CONSTANT 11) ; x <- 10
+
+(def square
+  (fn [x] 
+    (* x x)))
+
+(defn square' [x]
+  (* x x))
+
+(square' 2)
+
+(def z 1)
+
+
+((fn []
+    (let [x 1]
+      (def z 1))))
+
+;z = 1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
