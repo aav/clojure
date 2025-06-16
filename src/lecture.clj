@@ -247,7 +247,7 @@ false
 ; (def MY-CONSTANT 11) ; x <- 10
 
 (def square
-  (fn [x] 
+  (fn [x]
     (* x x)))
 
 (defn square' [x]
@@ -258,11 +258,343 @@ false
 (def z 1)
 
 
+; not good!
 ((fn []
-    (let [x 1]
-      (def z 1))))
+   (let [x 1]
+     (def z 1))))
 
 ;z = 1
+
+;; LECTURE 6
+
+; Java
+; String s1 = new String("s");
+; String s2 = new String("s")
+;
+; (s1 == s2) => false ; compare identity
+; s1.equals(s2) => true ; compare values
+
+;
+; Clojure
+; has no identity equivalence
+; 
+; just value equivalance
+
+
+(= 1 1 1)
+
+(= "hello" "hello") ; -> s1.equals(s2)
+
+(let [a 1 b 1]
+  (= a b))
+
+(= [1 2] [1 2])
+
+(= [2 1 #{1 2}] [2 1 #{2 1}])
+
+(not (= 1 2)) ; !(1 == 2) 1 != 2
+
+(not= 1 2)
+
+{#{1 2} 2, #{2 1 3} 4}
+
+;; Destructuring (binding)
+
+(let [[_ _ v3] [1 2 3]]
+  v3)
+
+
+(let [v [1 [4 5] 3]]
+  (let [[_ [_ v22]] v]
+    [v v22]))
+
+(let [[_ [_ v22 :as v-inner] :as v] [1 '(4 5) 3]]
+  [v v-inner v22])
+
+((fn [[_ [_ v22 :as v-inner] :as v]]
+   [v v-inner v22]) [1 '(4 5) 3])
+
+(defn my-function [[_ x]]
+  (* x x))
+
+(my-function [1 2])
+
+(let [{[_ x :as q] :k :as all} {:k [3 4] :v 3}]
+  [x all q])
+
+; tuple [k v]
+(let [m {:k1 1 :k2 2 :k3 3}
+      a (into '() m)]
+  (= (into {} a) m))
+
+(let [[_ a] (into [] #{1 2 3})]
+  a)
+
+(into [] "hello")
+; core.match
+
+(first [1 2 3 4])
+(first '(1 2 3 4))
+
+(rest [1 2 3 4])
+(rest '(1 2 3 4))
+
+(let [s (first (rest [1 2 3 4]))]
+  s)
+
+(let [[_ s] [1 2 3 4]]
+  s)
+
+(nth [1 2 3 4] 2)   ; index O(1)
+(nth '(1 2 3 4) 2)  ; index O(n)
+
+(take 3 [1 2 3 4 5 6 7])
+(take 3 '(1 2 3 4 5 6 7))
+
+(get {:k1 1 :k2 2 :k3 3} :k2)
+
+({:k1 1 :k2 2 :k3 3} :k2)
+
+(let [nums {:k1 1 :k2 2 :k3 3}]
+  (nums :k4 "default"))
+
+; y = f(x)   table x -> y
+
+
+;; LECTURE 7
+
+; sequences / lazy sequences / lazyness 
+
+; sequence
+
+; interface MyIterator {
+;     Object next();
+; }
+
+(seq [1 2 3])
+
+; seq -> seq
+(take 3 [1 2 3 4 5 6])
+
+; seq -> value
+(first [1 2 3])
+
+; value -> seq
+[1 2 3 4]
+
+; 10 -> .....
+(class (range))
+
+(= (take 10 (range)) (range 10))
+
+(take 5 (take 10 (range)))
+
+; seq -> seq
+(map (partial + 1) [1 2 3 4 5])
+
+(println "hello")
+
+(defn slow-inc [x]
+  (Thread/sleep 1000)
+  (inc x))
+
+(slow-inc 1)
+
+; (time (take 10 (map slow-inc (range))))
+
+; seq -> value
+(into [0 0 0 0] (take 5 (range)))
+
+(into []
+      (take 10
+            (map inc
+                 (map (partial * 10) (range)))))
+
+
+(map (partial + 1000)
+     (take 10
+           (map (partial * 3)
+                (filter odd?
+                        (range)))))
+
+(->> (range)
+     (filter odd?)
+     (map (partial * 3))
+     (map (partial + 1000))
+     (map (fn [n] (- n 1)))
+     (take 10))
+
+
+; acc = vector();
+; counter = 0;
+; for(n=1; n<MAX_INT && counter < 10; n++) {
+;   if is_odd(n) {
+;      n*3+1000
+;      counter++;
+;      acc.insert(n)
+;   } 
+; }
+
+
+
+;; LECTURE 8
+
+(conj '(1 2) 0)
+(conj [1 2] 3)
+
+(let [a '(1 2)]
+  (let [b (conj a 0)]
+    a))
+
+(assoc {:a 1 :b 2} :c 3)
+
+(let [a {:a 1 :b 2}]
+  (let [b (assoc a :c 3)]
+    (let [c (dissoc b :a)]
+      [a b c])))
+
+
+
+;; LECTURE 9
+; if 
+
+; arity 2 or 3
+(if false (+ 3 4) (- 6 2))
+
+(if nil "Troothy" "Falsey")
+; falsey: false nil
+; troothy: all the rest
+
+;(when <cond> 
+;  <troothy branch>)
+
+(let [a 2]
+  (if-not (not (= a 1))
+    (println "Log" a)
+    "Yes"))
+
+; = not=  -> == !=
+
+(let [a 1]
+  (when-not (= a 2)
+    (println "Log" a)
+    "Yes"))
+
+
+(defn my-not [a]
+  (if a false true))
+
+
+; if, [if-not, when, when-not]
+; case, cond
+
+(defn n-str [n]
+  (case n
+    1 "One"
+    2 "Two"
+    3 "Three"
+    "Unknown"))
+
+(defn my-fn [n]
+  (cond
+    (nil? n) "Nil!"
+    (even? n) "Even"
+    (odd? n) "Odd"
+    :else "Default"))
+; condp
+
+(my-fn nil)
+(n-str 2)
+
+; if when
+; special form
+
+; (<fn> a1 a2 aN)
+; (if ...)
+; (fn ...)
+; (def ..)
+; (do )
+
+; (if <cond> <t-branch> [f-branch])
+
+; if(<cond>) {
+;  <required>
+; }[else {
+; 
+; }]
+
+; let x;
+; = if c x = 1 else x = 2;
+
+; x = c ? 1 : 2;
+
+; + ; arity 2
+; ~ ; arity 1
+; ? ; arity 3
+
+(map inc (range 10))
+
+; for while, repeat until loop goto
+; recursion 
+
+
+(count [1 2 3])
+
+(defn my-count [s]
+  (if (empty? s)
+    0
+    (+ (recur (rest s)) 1)))
+
+; TCO Tail Call Optimization
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
