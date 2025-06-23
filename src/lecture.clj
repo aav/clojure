@@ -543,9 +543,97 @@ false
 (defn my-count [s]
   (if (empty? s)
     0
-    (+ (recur (rest s)) 1)))
+    (+ (my-count (rest s)) 1)))
 
-; TCO Tail Call Optimization
+; 
+
+; LECTURE 10
+
+(defn my-count' [s c]
+  (if (empty? s)
+    c
+    (recur (rest s) (+ c 1))))
+
+
+(defn my-count'' [input]
+  (loop [s input c 0]
+    (if (empty? s)
+      c
+      (recur (rest s) (+ c 1)))))
+
+; recursion point
+
+(my-count [1 2 3 4])
+(my-count'' (range 10000000))
+
+(my-count' [1 2 3] 0)
+
+; list = [1 2 3 4]
+; but_one(list)
+; but_one([1 2 3 4]) -> [2 3 4]
+; length([]) = 0;
+; length(l) = length(but_one(list)) + 1;
+; homoiconic
+
+(take 10
+      (map (fn [x] (* 3 x))
+           (filter even?
+                   (range))))
+
+
+; -> thread first
+; ->> thread last
+
+
+(->>
+ (range)
+ (filter even?)
+ (map (fn [x] (* 3 x)))
+ (take 10))
+
+(->>
+ (filter even? (range))
+ (map (fn [x] (* 3 x)))
+ (take 10))
+
+(->>
+ (map (fn [x] (* 3 x)) (filter even? (range)))
+ (take 10))
+
+(->>
+ (take 10 (map (fn [x] (* 3 x)) (filter even? (range)))))
+
+(take 10
+      (map (fn [x] (* 3 x))
+           (filter even?
+                   (range))))
+
+
+
+
+(let [x 2]
+  '(println 1 x 3))
+
+(let [x [2 [3 4] 5]]
+  `(println 1 ~@x 3))
+
+; ` - back quote
+; ~ - unquote
+; ~@ - splice unquote
+
+
+
+; {{x}}
+
+
+
+
+
+
+
+
+
+
 
 
 
