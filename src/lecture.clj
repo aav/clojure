@@ -1,4 +1,6 @@
-(ns lecture)
+(ns lecture
+  (:require [clojure.core.match :refer [match]]))
+
 
 ; ~1930 Alonso Church - Lambda Calculus (lambda abstraction) (beta reduction)
 ; ~1950 Jim McArthy - Lisp (LISt Processing)
@@ -580,9 +582,14 @@ false
            (filter even?
                    (range))))
 
-
 ; -> thread first
 ; ->> thread last
+
+
+(let [x 10]
+  x)
+
+((fn [x] x) 10)
 
 
 (->>
@@ -608,25 +615,81 @@ false
            (filter even?
                    (range))))
 
-
-
-
 (let [x 2]
   '(println 1 x 3))
 
 (let [x [2 [3 4] 5]]
-  `(println 1 ~@x 3))
+  `(println 1 ~x 3))
 
 ; ` - back quote
 ; ~ - unquote
 ; ~@ - splice unquote
 
 
+(take 10
+      (map (fn [x] (* 3 x))
+           (filter even?
+                   (range))))
 
-; {{x}}
+
+(->> (range)
+     (filter even?)
+     (map (fn [x] (* 3 x)))
+     (take 10))
+
+(defn ->>fn [x & forms]
+  (loop [x x forms forms]
+    (if-not (empty? forms)
+      (let
+       [form (first forms)
+
+        threaded
+        `(~(first form) ~@(rest form) ~x)]
+        
+        (recur threaded (rest forms)))
+
+      x)))
+
+
+(->> 10)
+
+(->> 10
+     (+ 1 2 3 4)
+     (* 10))
+
+(->> (+ 1 2 3 4 10)
+     (* 10))
+
+(->> (* 10 (+ 1 2 3 4 10)))
+
+(* 10 (+ 1 2 3 4 10))
+
+
+(defmacro my->> [x & forms]
+  (loop [x x forms forms]
+    (if-not (empty? forms)
+      (let
+       [form (first forms)
+
+        threaded
+        `(~(first form) ~@(rest form) ~x)]
+
+        (recur threaded (rest forms)))
+
+      x)))
 
 
 
+(->>fn 10 '(+ 1 2 3 4) '(* 11))
+
+(->> 10 (+ 1 2 3 4) (* 11))
+
+
+(->>fn
+ '(range)
+ '(filter even?)
+ '(map (fn [x] (* 3 x)))
+ '(take 10))
 
 
 
