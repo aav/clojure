@@ -155,6 +155,175 @@ true
 
 (if false 1 3)
 
+({true "Yes"
+  false "No"} false)
+
+; Clojure -> Lisp
+
+; application
+(inc 2)
+
+(fn [x]
+  x)
+
+
+;; ***********************
+
+((fn [x]
+   x) 1)
+
+
+((fn [x]
+   (+ x 1)) 1)
+
+((fn [a]
+   ((fn [add-one]
+      (add-one a))
+    (fn [x]
+      (+ x 1)))) 5)
+
+; ((x) -> x + 1)(1)
+
+;function add_one(x) {
+;   return x + 1                     
+;}
+
+
+((fn [add-one]
+   ;T 
+   (* (add-one 1)
+      (add-one 3)))
+ (fn [x] (+ 1 x)))
+
+((fn [add-one]
+   ;T 
+   (* ((fn [x] (+ 1 x)) 1)
+      ((fn [x] (+ 1 x)) 3)))
+ (fn [x] (+ 1 x)))
+
+
+(* ((fn [x] (+ 1 x)) 1)
+   ((fn [x] (+ 1 x)) 3))
+
+; 1 'abc' {x: 1, y: 2}
+; if while function ...
+;
+(+ 1 2)
+
+
+; homoiconicity
+; clojure is homoiconic language
+; code has the same form (shape) as data
+
+(let [x 1]
+  (+ x 1))
+
+; is transformed to (let is a macro)
+
+((fn [x]
+   (+ x 1)) 1)
+
+
+; AT HOME: simulate reduction steps (incl. let macro)
+(let [add-one
+      (fn [x] (+ x 1))]
+  (* (add-one 1)
+     (add-one 3)))
+
+
+(let
+ [my-add
+  (fn [x]
+    (fn [y]
+      (+ x y)))]
+  (my-add 1))
+
+(let
+ [my-add
+  (fn [x]
+    (fn [y]
+      (+ x y)))]
+  ((my-add 1) 3))
+
+(let
+ [my-add
+  (fn [x y]
+    (+ x y))]
+  (+ 1 3))
+
+((partial + 3) 4)
+
+(let [add-one (partial + 1)]
+  (add-one 1))
+
+; higher order function
+; partial function application
+; Curry transformation
+
+(apply + [1 2 3])
+(apply + [1 2 3])
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
