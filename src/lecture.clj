@@ -264,6 +264,250 @@ true
 (apply + [1 2 3])
 
 
+;; LECTURE 6
+
+(let [a 1]
+  (let [b 2 a 2]
+    (+ a b))
+  a)
+
+(let [+ *]
+  (+ 2 3))
+
+(let [a 1]
+  ;T
+  a)
+
+;(def my-pi 3.314)
+
+; canonical way
+(def my-add
+  (fn [a b]
+    (+ a b)))
+
+; practical way
+(defn my-add' [a b]
+  (+ a b))
+
+(defn my-func []
+  (def n 1) ; VERY BAD!!!
+  (let [n 1]
+    ;..
+    ))
+
+;(partial + 1)
+;(my-add' 2 3)
+
+; (fn [a b c])  arity is 3
+
+
+; destructuring (binding)
+
+
+
+; 123 "hello"
+
+
+[1 2 3 4]
+
+
+(let [[_ _ [v31 v32 :as all-inner] :as all] [1 2 [3 4 5]]]
+  [v31 v32 all all-inner])
+
+
+(let [[a & rest :as all] [1 2 3 4 5 6]]
+  [a rest all])
+
+(let [[a a a] [1 2 3]]
+  a)
+
+(let [a 1]
+  a)
+
+((fn [a]
+   a) 1)
+
+((fn [[a & rest :as all]]
+   [a rest all])
+ [1 2 3 4 5 6])
+
+
+(defn my-fn [[a & rest :as all]]
+  [a rest all])
+
+(my-fn [1 2 3 4 5 6])
+
+;[1 2 3 4 5 6]
+
+(let [{b :b c :c x :x :as all} {:a 1 :b 2 :c 3}]
+  [b all])
+
+(let [{:keys [b c x] :as all} {:a 1 :b 2 :c 3}]
+  [b all])
+
+(defn my-fn-1 [a b {:keys [opt1 opt2]}]
+  ; 
+  )
+
+(my-fn-1 1 2 {})
+
+
+(let [[a {b :b} c]  [1 {:b 2} 3]]
+  [a b c])
+
+
+; LECTURE 7
+(= 1 2)
+(= "hello" "hello")
+(= [1 2 3] [1 2 3])
+(=
+ {:a 1 :b [1 2 3] :c "hello"}
+ {:a 1 :b [1 2 3] :c "hello"})
+(= #{1 2 3} #{3 2 1})
+
+(let [a [1 2 3]
+      b [1 2 3]]
+  (= a b))
+
+(not (= 2 3))
+(not= 2 3)
+
+; (= a b c)
+(+ 1 2 3)
+
+(let [a [1 1 1]]
+  (apply = a))
+
+; [1 2 3 4 5 6 7]
+
+
+(let [a '(1 2 3)]
+  (let [b (rest a)]
+    [a b]))
+
+
+(first [1 2 3])
+(rest [1 2 3])
+
+(conj [1 2 3] 4)
+(conj '(1 2 3) 0)
+(conj #{1 2 3} 4)
+
+(concat [1 2] [3 4])
+
+(assoc {:a 1} :b 2)
+(dissoc {:a 1 :b 2} :a)
+(merge {:a 1} {:b 2} {:c 3})
+
+(nth [1 2 3 4] 2)
+
+(let [a '(1 2) b '(3 4)]
+  [a b (concat a b)])
+
+(let [a [1 2 3 4 5 6 7 , , , ] 
+      b (rest a)]
+  [a b])
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
