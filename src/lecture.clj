@@ -380,11 +380,10 @@ true
 
 ; [1 2 3 4 5 6 7]
 
-
-(let [a '(1 2 3)]
-  (let [b (rest a)]
-    [a b]))
-
+(let [l1 '(1 2 3)
+      l2 (conj l1 0)]
+  (let [l3 (rest l1)]
+    [l1 l2 l3]))
 
 (first [1 2 3])
 (rest [1 2 3])
@@ -404,9 +403,138 @@ true
 (let [a '(1 2) b '(3 4)]
   [a b (concat a b)])
 
-(let [a [1 2 3 4 5 6 7 , , , ] 
+(let [a [1 2 3 4 5 6 7]
       b (rest a)]
   [a b])
+
+; conditionals 
+(if true 1 2)
+
+(if false 1)
+
+
+(defn f1 []
+;  (log "f1 is called")
+  3)
+
+(f1)
+
+(defn log [_])
+
+(if false
+  (do
+    (log "condition is true")
+    3))
+
+; is equal to
+
+(when true
+  (log "condition is true")
+  3)
+
+(if-not true 1 2)
+(when-not true 1)
+
+(defn zero-odd-even [n]
+  (cond
+    (= 0 n) "Zero"
+    (odd? n) "Odd"
+    :else "Even"))
+
+(zero-odd-even 2)
+
+(defn as-string [n]
+  (case n
+    0 "Zero"
+    1 "One"
+    2 "Two"
+    nil))
+
+
+
+; my if-not, my-when, my-when-not, my-cond, my-case
+
+(as-string 3)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+; true values are: everything else
+; false values are: false, nil
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
