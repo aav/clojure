@@ -458,6 +458,264 @@ true
 
 
 
+; LECTURE 8
+
+; create seq
+(seq [1 2 3])
+(seq '(1 2 3))
+(seq #{1 2 3})
+(seq {:a 1 :b 2 :c 3})
+
+(seq [])
+(seq {})
+
+(def abc [1 2 3])
+
+(if (seq abc)
+  "not empty" "empty")
+
+; transform seq
+(let [in [1 2 3 4 5]]
+  (map inc in))
+
+(let [in [1 2 3 4 5 6 7 8]]
+  (filter even? in))
+
+(let [in1 [1 2 3 4]
+      in2 [5 6 7 8]]
+  (concat in1 in2))
+
+; consume seq
+(into '(0) (filter even? [1 2 3 4 5 6 7]))
+
+; fold / reduce
+; ((((1 + 2) + 3) + 4) + 5) + 6 + 7 
+
+(reduce + [1 2 3 4 5 6])
+(reduce * [1 2 3 4 5 6])
+
+
+; (range)
+(take 10 (range))
+
+(type
+ (take 200
+       (filter even?
+               (range))))
+
+
+
+(count [1 2 3 4 5])
+
+
+(defn my-count [s]
+  (if (empty? s)
+    0
+    (inc (my-count (rest s)))))
+
+
+(defn my-count-tco [s n]
+  (if (empty? s)
+    n
+    (recur (rest s) (inc n))))
+
+
+(defn my-count-tco-rp [s]
+  (loop [s s n 0]
+    (if (empty? s)
+      n
+      (recur (rest s) (inc n)))))
+
+; my_count([], N) -> N;
+; my_count([_ | T], N) -> my_count(T, N+1).
+
+; my_count(L) -> my_count(L, 0).
+
+
+
+; Erlang
+
+[]
+
+
+
+
+
+
+; recusrsion point
+; recur -> the closest recursion point
+
+
+(my-count-tco [1 2 3 4] 5)
+
+
+; TCO Tail Call Optimization
+
+
+(range 10)
+(take 10 (range))
+(my-count-tco-rp (range 10000000))
+
+; seq N  == 1 + (seq of N-1 elements)
+
+
+(defmacro my-macro [all] ; 
+  (type all))
+
+(defn my-function [all] ; all ~ 2
+  (type all))
+
+(my-macro
+ (let [a 1]
+   (inc a)))
+
+(defmacro my-comment [& _])
+
+(my-comment
+ (+ 1 2))
+
+(comment
+  (+ 1 2))
+
+
+; (defn xxx [args] ....)
+
+(def xxx
+  (fn [args] ....))
+
+
+
+(list 1 2 3 4)
+
+(defmacro my-defn [name args & body]
+  (list 'def name
+        (concat (list 'fn args) body)))
+
+(my-defn aa [a b]
+         (+ a b))
+
+(let [a 1
+      b 2
+      c 3]
+  ; T
+  )
+
+((fn [a b c] T) 1 2 3)
+
+(aa 1 2)
+
+
+(defmacro my-defn [name args & body]
+  (list 'def name
+        (concat (list 'fn args) body)))
+
+(defmacro my-defn' [name args & body]
+  `(def ~name
+     (fn ~args
+       ~@body)))
+
+
+
+(my-defn' aa' [a b]
+          (+ a b))
+
+
+; regular quote
+'(1 2 3 4)
+
+; syntax quote
+`(1 2 3 4)
+
+; unquote ~
+(let [a 0]
+  `(1 2 3 4 5 ~a))
+
+; splice unquote ~@
+(let [a [6 7 8 9]]
+  `(1 2 3 4 5 ~@a))
+
+(+ 1 2)
+
+(defmacro infix [[a1 op a2]]
+  `(~op ~a1 ~a2))
+
+(infix (1 + 2 + 2))
+
+
+(macroexpand '(infix (1 + 2 + 2)))
+
+(macroexpand 
+  '(defn a [b x] [d e]))
+
+
+(macroexpand '(let* [a 1] a))
+
+
+
+(take 10 
+      (filter even? 
+              (range)))
+
+; thread last
+(->> 
+ (range)
+ (filter even?)
+ (take 10)
+ (reduce +))
+
+; thread first
+(-> 
+ 10 (+ 5) (* 8))
+
+
+(macroexpand 
+ '(->
+   10 (+ 5) (* 8)))
+
+(defmacro my-> [x & forms] 
+  (loop [x x forms forms]
+    (if (empty? forms)
+      x
+      (let [form (first forms)
+            threaded `(~(first form) ~x ~@(next form))]
+        (recur threaded (next forms))))))
+  
+(my->
+ 10 (+ 5) (* 8))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
