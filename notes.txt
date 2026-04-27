@@ -1,0 +1,85 @@
+
+
+Lambda Calculus
+
+; formal syntax
+M, N ::= x | λx. M | M N
+
+; free variable (not bound)
+FV(x)     = {x}
+FV(λx. M) = FV(M) \ {x}
+FV(M N)   = FV(M) ∪ FV(N)
+
+; β reduction
+(λx. M) N -> M[x := N]
+; examples
+λx. 1 2    -> 1
+λx. x 1    -> 1
+λx.λx.x 1  -> λx.x
+λx.λy. x 1 -> λy.1
+
+; curry transformation or curring
+λx.λy. x*y 2 3
+λy. 2*y 3
+2*3
+
+; α transformation
+λx. M ≡ λy. M[x := y]
+
+; η transformation
+λx. f x ≡ f
+
+; normal form (terminal form)
+
+(λx. x x) (λx. x x) -> Ω ; infinte loop
+
+true  ≡ λt.λf. t 
+function true(t, f) { returns t}
+
+false ≡ λt.λf. f
+function false(t, f) { returns f}
+
+if    ≡ λb.λt.λe. b t e   ; e - else
+;JS b ? t : e
+
+; Church numerals
+
+0     ≡ λf.λx. x
+1     ≡ λf.λx. f x
+2     ≡ λf.λx. f (f x)
+..
+..
+succ  ≡ λn.λf.λx. f (n f x)
+
+
+; fixed point combinator
+; Y combinator
+Y     ≡ λf. (λ.x f (x x)) (λx. f (x x))
+
+Y f   -> f (Y f)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
