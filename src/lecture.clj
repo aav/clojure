@@ -176,15 +176,15 @@ nil
    abc) 3)
 
 ((fn [a b]
-  (+ a b)) 2 3)
+   (+ a b)) 2 3)
 
 ; Curry transformation
 
 ; Partial application
 
 ((fn [a]
-  (fn [b]
-    (+ a b))) 2)
+   (fn [b]
+     (+ a b))) 2)
 
 (fn [b]
   (+ 2 b))
@@ -194,8 +194,8 @@ nil
 5
 
 (((fn [a]
-   (fn [b]
-     (+ a b))) 2) 3)
+    (fn [b]
+      (+ a b))) 2) 3)
 
 (fn [a b]
   (+ a b))
@@ -212,7 +212,300 @@ nil
   (my-inc 4))
 
 ((fn [my-inc]
-  (my-inc 4)) (partial + 1))
+   (my-inc 4)) (partial + 1))
+
+(fn [x]
+  (fn [y]
+    (+ x y)))
+
+(fn [x]
+  (fn [x]
+    (+ x x)))
+
+((fn [x]
+   (fn [x]
+     (+ x x))) 2)
+
+(let [x 2]
+  (let [x 3]
+    (+ x x)))
+
+(let [* +]
+  (* 10 2))
+
+
+;(let [* <mult>]
+;  (let [+ <plus>]))
+
+(def PI 3.14)
+
+(def my-inc
+  (fn [x]
+    (+ x 1)))
+
+(defn my-inc' [x]
+  (+ x 1))
+
+(my-inc' 3)
+(my-inc 2)
+
+(let [my-inc'' (fn [x] (+ x 1))]
+  (my-inc'' 4))
+
+;(fn2 3)
+
+; dynamic
+(def ^:dynamic *X* 0)
+
+(defn fn1 []
+  (inc *X*))
+
+(defn fn2 [x]
+  (binding [*X* x]
+    (fn1)))
+
+(fn2 3)
+
+; thread local variables
+
+; xx = 10
+(def xx 10)
+
+; xx = 11
+(def xx 11)
+
+(defn add-3 [a b c]
+  (+ a b c))
+
+(add-3 1 2 3)
+
+(let [a 1
+      b 2
+      c 3
+      c (+ a b)]
+  (+ a b c))
+
+
+; conditionals
+true
+false
+
+(if false 1 2)
+; cond ? 1 : 2
+
+(if false "Yes" nil)
+(if "No" 1 2)
+(if nil 1 2)
+
+
+; FALSE: false, nil
+; TRUE: anything else
+
+(if-not true 1 2)
+
+(if true
+  (do
+    (println "Yes")
+    "Yes"))
+
+(when true
+  (println "Yes")
+  "Yes")
+
+; (when-not)
+
+; if, if-not, when, when-not
+(defn f [n]
+  (cond
+    (even? n) "Even"
+    (odd? n) "Odd"
+    :else "Else"))
+
+(defn f [n]
+  (case n
+    1 "One"
+    2 "Two"
+    3 "Three"
+    "Unknown"))
+
+; FizzBuzz problem with cond
+
+;; Lecture 5
+
+
+
+;(if <cond> <true-b> <false-b>)
+
+
+(if (= 2 3) (+ 4 5) (* 6 7))
+(if false (+ 4 5) (* 6 7))
+(if false 9 (* 6 7))
+(if false 9 42)
+42
+
+
+; Lazy evaluation
+
+;; lazy
+; a = 4 + 5
+; if (false) {
+;   b = a + a
+; }
+
+; false ? f1() : f2()
+; f(f1(), f2())
+
+(def d
+  (delay
+    (+ 2 3)))
+
+(deref d)
+
+(let [a (delay (+ 2 3))
+      b (delay (* 4 6))]
+  (deref (if false a b)))
+
+(let [a (memoize (fn [] (+ 2 3)))
+      b (memoize (fn [] (* 4 6)))]
+  ((if false a b)))
+
+(let [f
+      (fn []
+        (Thread/sleep 5000)
+        (+ 2 3))]
+  (* (f) (f)))
+
+
+;; Destructuring (binding)
+
+; 4
+; "abc"
+
+[1 2 3]
+'(1 2 3)
+{1 "one" 2 "two"}
+
+
+(let [[a b c] [1 2 3]]
+  [a c])
+
+((fn [[a b c]]
+   [a c]) [1 2 3])
+
+
+(defn my-fn [[a b c]]
+  a)
+
+(my-fn [1 2 3])
+
+(let [[a [b1 b2 & b-rest :as b] & others :as complete] [1 [11 12 13 14] 3 4 5 6]]
+  [b a b1 b2 b-rest others complete])
+
+
+(let [{:keys [phone lname] [fname _] :fname  :as complete :or {phone "Unknown"}} {:fname ["Alexey" "Walter"] :lname "Aristov" :age 51 :phone "12345"}]
+  [fname phone lname])
+
+
+
+; core.match 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
